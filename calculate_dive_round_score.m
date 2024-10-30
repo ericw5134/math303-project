@@ -5,30 +5,27 @@ function totalScore = calculateDivingScore(scores, difficulty)
     totalScore = executionScore * difficulty;
 end
 
-data = readtable('/mnt/data/Diving2000.csv');
+data = readtable('data/Diving2000.csv');
 uniqueDives = unique(data(:, {'Diver', 'Country', 'DiveNo', 'Difficulty'}), 'rows');
 
 for i = 1:height(uniqueDives)
-    % Extract data for each dive
     diveData = data(strcmp(data.Diver, uniqueDives.Diver{i}) & ...
                     data.DiveNo == uniqueDives.DiveNo(i), :);
     
-    % Scores and judge nationalities for this dive
+    % scores and judge nationalities for this dive
     scores = diveData.JScore;
     judgeNationalities = diveData.JCountry;
     diverNationality = uniqueDives.Country{i};
-    difficulty = uniqueDives.Difficulty(i);
+    DD = uniqueDives.Difficulty(i);
     
-    % Calculate the total score for the dive
-    totalScore = calculateDivingScore(scores, difficulty);
+    roundScore = calculateDivingScore(scores, DD);
     fprintf('Total Score for %s (Country: %s, Dive %d): %.2f\n', ...
-            uniqueDives.Diver{i}, diverNationality, uniqueDives.DiveNo(i), totalScore);
+            uniqueDives.Diver{i}, diverNationality, uniqueDives.DiveNo(i), roundScore);
     
     % Bias detection: Check if each judge’s nationality matches the diver’s nationality
     for j = 1:length(judgeNationalities)
         if strcmp(judgeNationalities{j}, diverNationality)
-            fprintf('Judge from %s scored diver %s from %s\n', ...
-                    judgeNationalities{j}, uniqueDives.Diver{i}, diverNationality);
+            roundScore = 0.9 * roundScore;
         end
     end
 end
