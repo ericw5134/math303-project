@@ -1,0 +1,23 @@
+About: Diving2000.csv
+
+Source: Compiled by John W. Emerson and Miki Seltzer from official
+PDF scoring sheets.  The URL of the original PDF file is now defunct.
+
+Number of cases: 10,787 scores from 1,541 dives (7 judges score each
+dive) performed in four events at the 2000 Olympic Games in Sydney,
+Australia.
+
+Number of variables: 10.
+
+Variables:
+
+Event		Four events, men's and women's 3M and 10m.
+Round		Preliminary, semifinal, and final rounds.
+Diver		The name of the diver.
+Country		The country of the diver.
+Rank		The final rank of the diver in the event.
+DiveNo		The number of the dive in sequence within round.
+Difficulty	The degree of difficulty of the dive.
+JScore		The score provided for the judge on this dive.
+Judge		The name of the judge.
+JCountry	The country of the judge.
