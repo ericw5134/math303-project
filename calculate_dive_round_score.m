@@ -1,37 +1,25 @@
-function totalScore = calculateDivingScore(judgeScores, degreeOfDifficulty, judgeNationalities, diverNationality, B)
-    % Adjust scores for nationality
-    for i = 1:length(judgeScores)
-        if strcmp(judgeNationalities{i}, diverNationality)
-            judgeScores(i) = B * judgeScores(i);
-        end
-    end
-
-    judgeScores = sort(judgeScores, 'ascend');
+function totalScore = calculateDivingScore(scores, difficulty, judgeNationalities, diverNationality)
+    sortedScores = sort(scores, 'ascend');
+    middleScores = sortedScores(3:end-2);
+    % Check if each judge’s nationality matches the diver’s nationality for
+    % middle scores, if is the same, do modifiedScore = 0.9 * originalScore
     
-    % Remove two highest and two lowest scores
-    middleScores = judgeScores(3:end-2);
-    
-    % Sum of the middle scores
-    sumMiddleScores = sum(middleScores);
-    
-    % Calculate total score
-    totalScore = sumMiddleScores * degreeOfDifficulty * 0.6;
+    executionScore = sum(middleScores);
+    totalScore = executionScore * difficulty;
 end
-
-% Examples
-judgeScoresExample1 = [8.0, 8.5, 7.5, 8.0, 8.5, 7.5, 8.0];
-degreeOfDifficulty1 = 2.5;
-judgeNationalitiesExample1 = {'USA', 'USA', 'CAN', 'GBR', 'GBR', 'AUS', 'AUS'};
-diverNationality1 = 'USA';
-B1 = 0.9;
-totalScore1 = calculateDivingScore(judgeScoresExample1, degreeOfDifficulty1, judgeNationalitiesExample1, diverNationality1, B1);
-fprintf('Total Score for Example 1: %.2f\n', totalScore1);
-
-
-judgeScoresExample2 = [9.0, 9.5, 8.5, 9.0, 9.5, 8.0, 9.0];
-degreeOfDifficulty2 = 3.2;
-judgeNationalitiesExample2 = {'CHN', 'CHN', 'JPN', 'KOR', 'KOR', 'CHN', 'JPN'};
-diverNationality2 = 'CHN';
-B2 = 0.85;
-totalScore2 = calculateDivingScore(judgeScoresExample2, degreeOfDifficulty2, judgeNationalitiesExample2, diverNationality2, B2);
-fprintf('Total Score for Example 2: %.2f\n', totalScore2);
+data = readtable('data/Diving2000.csv');
+uniqueDives = unique(data(:, {'Event', 'Round', 'Diver', 'Country', 'Rank', 'DiveNo', 'Difficulty'}), 'rows');
+for i = 1:height(uniqueDives)
+    diveData = data(strcmp(data.Diver, uniqueDives.Diver{i}) & ...
+                    data.DiveNo == uniqueDives.DiveNo(i), :);
+    
+    % scores and judge nationalities for this dive
+    scores = diveData.JScore;
+    judgeNationalities = diveData.JCountry;
+    diverNationality = uniqueDives.Country{i};
+    DD = uniqueDives.Difficulty(i);
+    
+    roundScore = calculateDivingScore(scores, DD, judgeNationalities, diverNationality);
+    fprintf('Original Score for %s (Country: %s, DiveNo %d): %.2f\n', ...
+            uniqueDives.Diver{i}, diverNationality, uniqueDives.DiveNo(i), roundScore);
+end
