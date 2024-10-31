@@ -1,9 +1,19 @@
 function totalScore = calculateDivingScore(scores, difficulty, judgeNationalities, diverNationality)
+    % Adjustment factor B
+    B = 0.9;
+
+    % Adjust scores for nationality
+    for i = 1:length(scores)
+        if strcmp(judgeNationalities{i}, diverNationality)
+            scores(i) = B * scores(i);
+        end
+    end
+
+    % Remove two highest and two lowest scores
     sortedScores = sort(scores, 'ascend');
     middleScores = sortedScores(3:end-2);
-    % Check if each judge’s nationality matches the diver’s nationality for
-    % middle scores, if is the same, do modifiedScore = 0.9 * originalScore
     
+    % Total score calculation
     executionScore = sum(middleScores);
     totalScore = executionScore * difficulty;
 end
@@ -20,6 +30,7 @@ for i = 1:height(uniqueDives)
     DD = uniqueDives.Difficulty(i);
     
     roundScore = calculateDivingScore(scores, DD, judgeNationalities, diverNationality);
+    
     fprintf('Original Score for %s (Country: %s, DiveNo %d): %.2f\n', ...
             uniqueDives.Diver{i}, diverNationality, uniqueDives.DiveNo(i), roundScore);
 end
