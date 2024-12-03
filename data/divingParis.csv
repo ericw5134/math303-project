@@ -1,0 +1,73 @@
+Dive_Order,Diver_Name,Diver_id,Judge1,Judge2,Judge3,Judge4,Judge5,Judge6,Judge7,Difficulty,Position,Round_Score,Round_Number
+1,Noah Williams,1,8,8,8,8,8.5,8.5,9,3.2,Tuck,78.4,1
+2,Oleksii Sereda,2,7,7,7,7.5,7,7,7,3.2,Tuck,67.2,1
+3,Nathan Murray,3,8.5,8.5,9,9,8.5,8,9,3.2,Tuck,83.2,1
+4,Timo Barthel,4,7.5,7.5,7.5,7,7,7.5,7,3.2,Tuck,70.4,1
+5,Kevin Berlin Reyes,5,7,7,6.5,7.5,6.5,7,6.5,3.2,Tuck,65.6,1
+6,Randal Willars Valdez,6,8,8,7.5,8,8,8,8,3.5,Pike,84,1
+7,Kyle Kothari,7,7,7,7.5,7.5,7.5,7,7.5,3.2,Free,70.4,1
+8,Rylan Wiens,8,7.5,8,8,8,8,8,8,3.2,Tuck,76.8,1
+9,Cassiel Rousseau,9,8,8.5,8.5,8,8.5,8.5,8.5,3.4,Tuck,86.7,1
+10,Tamai Rikuto,10,9,9,9,9,9.5,9.5,9.5,3.2,Tuck,88,1
+11,Yang Hao,11,7.5,8,8,8.5,8.5,8,8,3.2,Tuck,76.8,1
+12,Cao Yuan,12,9.5,9.5,9.5,9.5,9.5,9.5,9.5,3.4,Tuck,96.9,1
+13,Noah Williams,1,8,7.5,7.5,8,8,8.5,8,3.6,Free,86.4,2
+14,Oleksii Sereda,2,6,6,4.5,6,6,5.5,6,3.7,Tuck,66.6,2
+15,Nathan Murray,3,5.5,5.5,6,5.5,5.5,4.5,5.5,3.7,Tuck,61.05,2
+16,Timo Barthel,4,7.5,7,6.5,7,7,7.5,7,3.3,Tuck,69.3,2
+17,Kevin Berlin Reyes,5,5.5,5.5,6.5,5.5,6.5,6,5.5,3.5,Pike,59.5,2
+18,Randal Willars Valdez,6,8.5,8.5,8.5,9,9,9,8.5,3.4,Tuck,88.4,2
+19,Kyle Kothari,7,8,8.5,8.5,8,8,8,8,3.4,Tuck,81.6,2
+20,Rylan Wiens,8,8,8,8,8,7,8,8,3.7,Tuck,88.8,2
+21,Cassiel Rousseau,9,7.5,7.5,7.5,7.5,7.5,7.5,7.5,3.6,Free,81,2
+22,Tamai Rikuto,10,8.5,9,8.5,8.5,9,9,9.5,3.6,Pike,95.4,2
+23,Yang Hao,11,5,5.5,5.5,6.5,5.5,6,6,3.5,Pike,59.5,2
+24,Cao Yuan,12,9,9,9,9,8.5,9,8.5,3.2,Tuck,86.4,2
+25,Noah Williams,1,8,7.5,8,8.5,8.5,8,8,3.4,Tuck,81.6,3
+26,Oleksii Sereda,2,6.5,6.5,7,7,6.5,5.5,6.5,3.4,Tuck,66.3,3
+27,Nathan Murray,3,6.5,6.5,6.5,6,6.5,7,6.5,3.3,Tuck,64.35,3
+28,Timo Barthel,4,8,8,8,8,8,8.5,8,3.3,Tuck,79.2,3
+29,Kevin Berlin Reyes,5,7.5,8,8,8,7.5,8.5,7.5,3.4,Tuck,79.9,3
+30,Randal Willars Valdez,6,7,7,7,7,5.5,7,7,3.5,Pike,73.5,3
+31,Kyle Kothari,7,7.5,7.5,7.5,7,7.5,7.5,8,3.2,Tuck,72,3
+32,Rylan Wiens,8,8.5,8.5,9.5,8.5,9,9,9,3.4,Tuck,90.1,3
+33,Cassiel Rousseau,9,8,8,8.5,8,8,8,8,3.2,Tuck,76.8,3
+34,Tamai Rikuto,10,9,9,9,8.5,8,7.5,8,3.7,Tuck,94.35,3
+35,Yang Hao,11,6.5,7,6,6.5,5.5,5,5.5,3.4,Tuck,61.2,3
+36,Cao Yuan,12,8.5,9,9,9,8,9,9,3.6,Pike,97.2,3
+37,Noah Williams,1,5.5,5.5,6,6,6,6,5.5,3.6,Pike,63,4
+38,Oleksii Sereda,2,7.5,7,8,6.5,7,7,6,3.6,Pike,75.6,4
+39,Nathan Murray,3,7.5,7.5,7.5,8,7.5,7.5,8,3.2,Free,72,4
+40,Timo Barthel,4,7.5,7.5,7.5,7.5,7,7.5,7.5,3,Pike,67.5,4
+41,Kevin Berlin Reyes,5,7.5,7,7,7,8,7.5,7,3.6,Pike,77.4,4
+42,Randal Willars Valdez,6,8,7.5,7.5,8,7,8.5,8,3.6,Pike,84.6,4
+43,Kyle Kothari,7,4.5,4.5,4.5,5,4.5,4.5,4,3.3,Tuck,44.55,4
+44,Rylan Wiens,8,6.5,6.5,7,7,5.5,6,6.5,3.6,Free,70.2,4
+45,Cassiel Rousseau,9,5,6,5.5,6.5,5.5,5.5,6,3.6,Pike,61.2,4
+46,Tamai Rikuto,10,8.5,8.5,8.5,8,8.5,9,8.5,3.6,Free,91.8,4
+47,Yang Hao,11,5,5,5.5,5.5,5,4.5,4.5,3.6,Pike,54,4
+48,Cao Yuan,12,8,8.5,8.5,8.5,8,9,8.5,3.6,Free,91.8,4
+49,Noah Williams,1,8,8,8.5,8.5,9,9,9,3.6,Pike,93.6,5
+50,Oleksii Sereda,2,6,6,7,6,5,5.5,6,3.6,Free,64.8,5
+51,Nathan Murray,3,4.5,5,4.5,4.5,4.5,4.5,3.5,3.4,Tuck,45.9,5
+52,Timo Barthel,4,8.5,8.5,8,8,8,8,8,3.4,Tuck,81.6,5
+53,Kevin Berlin Reyes,5,4,5.5,5.5,4.5,5,5,4.5,3.7,Tuck,53.65,5
+54,Randal Willars Valdez,6,8.5,8,8,8,8,8.5,8,3.6,Pike,86.4,5
+55,Kyle Kothari,7,6,6.5,5,5.5,5.5,5,5,3.7,Tuck,59.2,5
+56,Rylan Wiens,8,4.5,4,4.5,5,4.5,4,4,3.3,Tuck,42.9,5
+57,Cassiel Rousseau,9,7.5,7,7.5,8,7.5,8,8,3.6,Pike,82.8,5
+58,Tamai Rikuto,10,4,4,3.5,4,4,3.5,3.5,3.4,Tuck,39.1,5
+59,Yang Hao,11,9,9,8.5,9,8.5,8,8,3.2,Pike,83.2,5
+60,Cao Yuan,12,8,8,8,9,8,8.5,8,3.7,Tuck,88.8,5
+61,Noah Williams,1,8.5,8.5,9,8.5,8.5,9,8.5,3.7,Tuck,94.35,6
+62,Oleksii Sereda,2,8,8,8,8,8,8,8,3.6,Pike,86.4,6
+63,Nathan Murray,3,8,8,8.5,8,8.5,8,8.5,3.2,Pike,78.4,6
+64,Timo Barthel,4,7.5,8,8,7.5,7.5,8,7.5,3.4,Free,78.2,6
+65,Kevin Berlin Reyes,5,8,8,8,7.5,7.5,7.5,8,3.6,Pike,84.6,6
+66,Randal Willars Valdez,6,5.5,5,4.5,5,5.5,5,4.5,4.1,Pike,61.5,6
+67,Kyle Kothari,7,7,6.5,7,7,6.5,6.5,7,3.6,Pike,73.8,6
+68,Rylan Wiens,8,8,8,8,8,8,8,8,3.2,Pike,76.8,6
+69,Cassiel Rousseau,9,8.5,8,7.5,8.5,7.5,8.5,8.5,3.7,Tuck,92.5,6
+70,Tamai Rikuto,10,9.5,9,9,9,9,9.5,9.5,3.6,Pike,99,6
+71,Yang Hao,11,4.5,5,6.5,5,5.5,4.5,5,3.7,Tuck,55.5,6
+72,Cao Yuan,12,8,8,8.5,8,8,8,8,3.6,Pike,86.4,6
