@@ -1,0 +1,344 @@
+---
+title: "math303Project"
+author: "Jonathan Li"
+date: "2024-11-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+library(lme4)
+library(ggcorrplot)
+```
+
+
+```{r}
+setwd("/Users/jonathanli/Desktop/SFU2ND/2024/2024Fall/MATH303/Math303Proj/")
+```
+
+
+```{r}
+diving_df <- read_csv("divingParis.csv")
+```
+```{r}
+diving_df
+```
+```{r}
+# Reshape data for boxplot visualization
+library(tidyr)
+long_data <- diving_df %>%
+  pivot_longer(
+    cols = starts_with("Judge"),
+    names_to = "Judge",
+    values_to = "Score"
+  )
+
+# Create the boxplot
+ggplot(long_data, aes(x = Judge, y = Score, fill = Judge)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(
+    title = "Boxplot of Score Distribution by Each Judge In Paris 2024 Olympic Diving",
+    x = "Judge Number",
+    y = "Score"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5,size = 14),
+    panel.background = element_rect(fill = "white", color = NA),  # Change background color
+    plot.background = element_rect(fill = "lightblue", color = NA)
+    )
+```
+```{r}
+judge_scores <- diving_df[, c("Judge1", "Judge2", "Judge3", "Judge4", "Judge5", "Judge6", "Judge7")]
+
+# Compute Kendall correlation matrix
+kendall_corr_matrix <- cor(judge_scores, method = "kendall")
+
+
+# Visualize the Kendall correlation matrix with enhanced visibility
+# Visualize the Kendall correlation matrix with ggcorrplot
+ggcorrplot(kendall_corr_matrix, 
+           method = "square",       # Display method: 'square' or 'circle'
+           type = "lower",          # Show only the lower triangle of the matrix
+           lab = TRUE,              # Add correlation coefficient values
+           lab_size = 3,            # Adjust size of the labels
+           colors = c("blue", "white", "red"),  # Custom color gradient
+           title = "Kendall Correlation Matrix for Judges' Scores", 
+           legend.title = "Correlation")
+
+ggcorrplot(kendall_corr_matrix, 
+           method = "square",        # Display method: 'square' or 'circle'
+           type = "lower",           # Show only the lower triangle
+           lab = TRUE,               # Add correlation coefficient labels
+           lab_size = 3,             # Label font size
+           colors = c("white", "lightblue", "blue"),  # Blue gradient
+           title = "Kendall Correlation Matrix for Judges' Scores", 
+           legend.title = "Correlation") +
+  theme(plot.background = element_rect(fill = "lightblue"),  # Set light blue background
+        panel.background = element_rect(fill = "white"))  # Set panel background
+```
+
+```{r}
+long_data
+```
+
+```{r}
+# Perform the Kruskal-Wallis test
+kruskal_result <- kruskal.test(Score ~ Dive_Order, data = long_data)
+# Print the results
+print(kruskal_result)
+```
+
+
+```{r}
+diving_data_cleaned <- diving_df %>%
+  mutate(
+    Avg_Score = rowMeans(dplyr::select(., `Judge1`:`Judge7`), na.rm = TRUE), # Calculate mean score
+    Prior_Score = lag(Avg_Score) # Lag the Mean_Score to create Prior_Score
+  ) %>%
+  filter(!is.na(Prior_Score)) # Remove rows with NA in Prior_Score
+
+```
+```{r}
+diving_data_cleaned
+```
+```{r}
+model <- lm(Avg_Score ~ `Dive Order` + Prior_Score , data = diving_data_cleaned)
+summary(model)
+anova(model)
+```
+
+
+### Check If Judges Favor Specific Positions:
+```{r}
+# Reshape data for analysis
+library(tidyr)
+position_data <- diving_df %>%
+  pivot_longer(
+    cols = starts_with("Judge"),
+    names_to = "Judge",
+    values_to = "Score"
+  )
+
+# Perform two-way ANOVA
+anova_result <- aov(Score ~ Position * Judge, data = position_data)
+summary(anova_result)
+
+# Create a boxplot to visualize scores by judge and position
+ggplot(position_data, aes(x = Position, y = Score, fill = Position)) +
+  geom_boxplot() +
+  facet_wrap(~ Judge, nrow = 2) +
+  labs(
+    title = "Scores by Judge and Position",
+    x = "Position",
+    y = "Score"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16)
+  )
+```
+```{r}
+lagged_df <- diving_df %>%
+  mutate(Average_Score = rowMeans(diving_df[, grep("Judge", names(diving_df))]))
+
+# Create lagged variables
+lagged_df <- lagged_df %>%
+  mutate(
+    Previous_Score = lag(Average_Score, 1),
+    Two_Before_Score = lag(Average_Score, 2)
+  ) %>%
+  drop_na()  # Remove rows with NA values caused by lagging
+
+# Perform regression analysis
+model <- lm(Average_Score ~ Previous_Score + Two_Before_Score, data = lagged_df)
+summary(model)
+
+# Visualize relationships
+ggplot(lagged_df, aes(x = Previous_Score, y = Average_Score)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Effect of Previous Score on Current Score",
+    x = "Previous Score (t-1)",
+    y = "Current Score"
+  ) +
+  theme_minimal()
+
+ggplot(lagged_df, aes(x = Two_Before_Score, y = Average_Score)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Effect of Two-Before Score on Current Score",
+    x = "Two-Before Score (t-2)",
+    y = "Current Score"
+  ) +
+  theme_minimal()
+```
+
+
+
+
+```{r}
+# Load required libraries
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Select only the judge columns
+judge_columns <- grep("Judge", names(diving_df), value = TRUE)
+judge_scores <- diving_df %>% select(all_of(judge_columns))
+
+# Calculate descriptive statistics for each judge
+score_distribution <- judge_scores %>%
+  summarise_all(list(
+    Mean = ~mean(., na.rm = TRUE),
+    Median = ~median(., na.rm = TRUE),
+    SD = ~sd(., na.rm = TRUE),
+    Min = ~min(., na.rm = TRUE),
+    Max = ~max(., na.rm = TRUE),
+    Range = ~max(., na.rm = TRUE) - min(., na.rm = TRUE)
+  )) %>%
+  pivot_longer(cols = everything(),
+               names_to = c("Judge", "Statistic"),
+               names_sep = "_") %>%
+  pivot_wider(names_from = Statistic, values_from = value)
+
+# Display the distribution
+print(score_distribution)
+
+# Optional: Round the numbers for better readability
+score_distribution <- score_distribution %>%
+  mutate(across(where(is.numeric), ~round(., 2)))
+
+# View rounded score distribution
+print(score_distribution)
+
+# Transform the data to long format for the boxplot
+data_long <- judge_scores %>%
+  pivot_longer(cols = everything(), names_to = "Judge", values_to = "Score")
+
+# Create the boxplot
+ggplot(data_long, aes(x = Judge, y = Score)) +
+  geom_boxplot(outlier.color = "red", outlier.shape = 16, outlier.size = 2, fill = "skyblue") +
+  labs(
+    title = "Score Distribution by Judges",
+    x = "Judges",
+    y = "Scores"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16)
+  )
+```
+```{r}
+# Load required libraries
+library(dplyr)
+library(tidyr)
+library(ez)
+library(ggplot2)
+
+# Select only the judge columns
+judge_columns <- grep("Judge", names(diving_df), value = TRUE)
+judge_scores <- diving_df %>% select(all_of(judge_columns))
+
+# Add a unique identifier for each dive
+judge_scores <- judge_scores %>%
+  mutate(Dive_ID = 1:nrow(judge_scores))
+
+# Transform the data to long format for ANOVA
+data_long <- judge_scores %>%
+  pivot_longer(cols = all_of(judge_columns), names_to = "Judge", values_to = "Score")
+
+# Ensure Dive_ID is included
+data_long <- data_long %>%
+  mutate(Dive_ID = rep(1:nrow(judge_scores), each = length(judge_columns)))
+
+# Perform Repeated Measures ANOVA
+anova_results <- ezANOVA(
+  data = data_long,
+  dv = Score,
+  wid = Dive_ID,
+  within = .(Judge),
+  detailed = TRUE
+)
+
+print(anova_results)
+
+# If significant, perform post-hoc pairwise comparisons
+pairwise_results <- pairwise.t.test(
+  x = data_long$Score,
+  g = data_long$Judge,
+  paired = TRUE,
+  p.adjust.method = "bonferroni"
+)
+
+print(pairwise_results)
+
+# Perform Kruskal-Wallis Test as a non-parametric alternative
+kruskal_test <- kruskal.test(Score ~ Judge, data = data_long)
+print(kruskal_test)
+
+# Visualize the scores using boxplot
+ggplot(data_long, aes(x = Judge, y = Score)) +
+  geom_boxplot(outlier.color = "red", outlier.shape = 16, outlier.size = 2, fill = "skyblue") +
+  labs(
+    title = "Score Distribution by Judges",
+    x = "Judges",
+    y = "Scores"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16)
+  )
+```
+
+```{r}
+## two way anova
+# Load required libraries
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Ensure your data is in long format
+judge_columns <- grep("Judge", names(diving_df), value = TRUE)
+judge_scores <- diving_df %>% select(all_of(judge_columns))
+
+# Add unique identifiers for dives (divers)
+judge_scores <- judge_scores %>%
+  mutate(Dive_ID = 1:nrow(judge_scores))
+
+# Transform the data to long format
+data_long <- judge_scores %>%
+  pivot_longer(cols = all_of(judge_columns), names_to = "Judge", values_to = "Score") %>%
+  mutate(Diver = factor(Dive_ID), Judge = factor(Judge))
+
+# Perform Two-Way ANOVA
+anova_model <- aov(Score ~ Judge + Diver + Judge:Diver, data = data_long)
+summary(anova_model)
+
+# Check for interaction effects
+anova_table <- summary(anova_model)
+print(anova_table)
+
+# Visualize the interaction effect between Judge and Diver
+ggplot(data_long, aes(x = Judge, y = Score, fill = Diver)) +
+  geom_boxplot() +
+  labs(
+    title = "Interaction Effect of Judge and Diver on Scores",
+    x = "Judge",
+    y = "Scores"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 16)
+  )
+```
+
